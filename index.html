@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>OrthoScan</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7fb;
+
+            color: #172033;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .header {
+
+            background: white;
+
+            padding:
+                22px 48px;
+
+            border-bottom:
+                1px solid #dfe5ee;
+        }
+
+
+        .logo {
+
+            font-size: 29px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+        }
+
+
+        .subtitle {
+
+            margin-top: 5px;
+
+            font-size: 16px;
+
+            color: #687386;
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .container {
+
+            max-width: 1250px;
+
+            margin:
+                30px auto;
+
+            padding:
+                0 20px;
+        }
+
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.25fr 0.9fr;
+
+            gap: 26px;
+        }
+
+
+        .card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 26px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(20,40,70,0.08);
+        }
+
+
+        .card h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 22px;
+
+            font-size: 21px;
+        }
+
+
+        /* ==============================
+           CAMERA
+        ============================== */
+
+        .camera {
+
+            width: 100%;
+
+            height: 420px;
+
+            background: #111827;
+
+            border-radius: 11px;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+
+        .camera img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        /* ==============================
+           RECORD BUTTON
+        ============================== */
+
+        .record-button {
+
+            width: 100%;
+
+            margin-top: 18px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #172033;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .record-button:hover {
+
+            background: #2b3952;
+        }
+
+
+        .record-button:disabled {
+
+            background: #9aa3b2;
+
+            cursor: not-allowed;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .recording-status {
+
+            margin-top: 14px;
+
+            padding: 12px;
+
+            background: #f3f6fa;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            color: #526075;
+
+            text-align: center;
+        }
+
+
+        .recording-status.active {
+
+            font-weight: 700;
+        }
+
+
+        /* ==============================
+           MEASUREMENTS
+        ============================== */
+
+        .measurement {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            padding: 17px 0;
+
+            border-bottom:
+                1px solid #edf0f5;
+        }
+
+
+        .measurement-name {
+
+            font-size: 15px;
+        }
+
+
+        .value {
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+        .waiting {
+
+            color: #9aa3b2;
+
+            font-size: 15px;
+
+            font-weight: 500;
+        }
+
+
+        /* ==============================
+           SECTION
+        ============================== */
+
+        .section-label {
+
+            margin-top: 22px;
+
+            margin-bottom: 2px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #687386;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+
+        /* ==============================
+           INPUTS
+        ============================== */
+
+        .input-group {
+
+            margin-top: 16px;
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #ccd4df;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+
+        input:focus {
+
+            border-color: #172033;
+        }
+
+
+        /* ==============================
+           SCALE
+        ============================== */
+
+        .scale {
+
+            margin-top: 6px;
+
+            font-size: 11px;
+
+            color: #7b8494;
+
+            line-height: 1.4;
+        }
+
+
+        .scale span {
+
+            font-weight: 600;
+        }
+
+
+        /* ==============================
+           ANALYZE
+        ============================== */
+
+        .analyze-button {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #172033;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .analyze-button:hover {
+
+            background: #2b3952;
+        }
+
+
+        .analyze-button:disabled {
+
+            background: #9aa3b2;
+
+            cursor: not-allowed;
+        }
+
+
+        /* ==============================
+           MESSAGE
+        ============================== */
+
+        .message {
+
+            margin-top: 15px;
+
+            padding: 11px;
+
+            border-radius: 8px;
+
+            display: none;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            color: #526075;
+
+            background: #f3f6fa;
+        }
+
+
+        .message.show {
+
+            display: block;
+        }
+
+
+        /* ==============================
+           RESULT
+        ============================== */
+
+        .result {
+
+            margin-top: 26px;
+
+            text-align: center;
+
+            padding: 26px;
+        }
+
+
+        .result-title {
+
+            font-size: 14px;
+
+            color: #687386;
+
+            letter-spacing: 1.2px;
+
+            font-weight: 700;
+        }
+
+
+        .risk {
+
+            margin-top: 9px;
+
+            font-size: 38px;
+
+            font-weight: 800;
+        }
+
+
+        .risk.low {
+
+            color: #16834b;
+        }
+
+
+        .risk.moderate {
+
+            color: #c77a00;
+        }
+
+
+        .risk.high {
+
+            color: #c62828;
+        }
+
+
+        .result-details {
+
+            margin-top: 18px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 30px;
+
+            flex-wrap: wrap;
+
+            font-size: 14px;
+
+            color: #526075;
+        }
+
+
+        .result-details strong {
+
+            color: #172033;
+        }
+
+
+        .note {
+
+            margin-top: 18px;
+
+            font-size: 13px;
+
+            color: #687386;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        .footer {
+
+            text-align: center;
+
+            margin: 28px 0;
+
+            font-size: 13px;
+
+            color: #7b8494;
+        }
+
+
+        /* ==============================
+           MOBILE
+        ============================== */
+
+        @media(max-width:850px) {
+
+            .grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .header {
+
+                padding:
+                    20px 25px;
+            }
+
+
+            .camera {
+
+                height: 330px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<div class="header">
+
+    <div class="logo">
+        ORTHOSCAN
+    </div>
+
+    <div class="subtitle">
+        AI-Assisted Orthopedic Movement Screening
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="container">
+
+
+    <div class="grid">
+
+
+        <!-- =================================================
+             MOVEMENT ANALYSIS
+        ================================================== -->
+
+        <div class="card">
+
+
+            <h2>
+                Movement Analysis
+            </h2>
+
+
+            <div class="camera">
+
+                <img
+                    src="{{ url_for('video_feed') }}"
+                    alt="OrthoScan Live Camera"
+                >
+
+            </div>
+
+
+            <button
+                id="recordButton"
+                class="record-button"
+                onclick="startRecording()">
+
+                START 10-SECOND RECORDING
+
+            </button>
+
+
+            <div
+                id="recordingStatus"
+                class="recording-status">
+
+                ● Camera and pose detection ready
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             RECORDED ASSESSMENT
+        ================================================== -->
+
+        <div class="card">
+
+
+            <h2>
+                Recorded Assessment
+            </h2>
+
+
+            <!-- MEAN ANGLE -->
+
+            <div class="measurement">
+
+                <span class="measurement-name">
+                    Mean Knee Angle
+                </span>
+
+                <span
+                    class="value"
+                    id="meanAngle">
+
+                    {% if features.available %}
+
+                        {{ "%.2f"|format(
+                            features.mean_angle
+                        ) }}°
+
+                    {% else %}
+
+                        <span class="waiting">
+                            Waiting for recording
+                        </span>
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+
+            <!-- KNEE RANGE -->
+
+            <div class="measurement">
+
+                <span class="measurement-name">
+                    Knee Range
+                </span>
+
+                <span
+                    class="value"
+                    id="kneeRange">
+
+                    {% if features.available %}
+
+                        {{ "%.2f"|format(
+                            features.knee_range
+                        ) }}°
+
+                    {% else %}
+
+                        <span class="waiting">
+                            Waiting for recording
+                        </span>
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+
+            <!-- VARIATION -->
+
+            <div class="measurement">
+
+                <span class="measurement-name">
+                    Angle Variation
+                </span>
+
+                <span
+                    class="value"
+                    id="variation">
+
+                    {% if features.available %}
+
+                        {{ "%.2f"|format(
+                            features.variation
+                        ) }}
+
+                    {% else %}
+
+                        <span class="waiting">
+                            Waiting for recording
+                        </span>
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PATIENT SYMPTOMS
+            ================================================== -->
+
+            <div class="section-label">
+                Patient Symptoms
+            </div>
+
+
+            <form id="analysisForm">
+
+
+                <!-- PAIN -->
+
+                <div class="input-group">
+
+                    <label for="pain">
+                        Pain Score (0–10)
+                    </label>
+
+
+                    <input
+                        id="pain"
+                        type="number"
+                        name="pain"
+                        min="0"
+                        max="10"
+                        step="1"
+                        placeholder="Enter pain score"
+                        required
+                    >
+
+
+                    <div class="scale">
+
+                        <span>0</span> No pain
+                        &nbsp;•&nbsp;
+
+                        <span>1–3</span> Mild
+                        &nbsp;•&nbsp;
+
+                        <span>4–6</span> Moderate
+                        &nbsp;•&nbsp;
+
+                        <span>7–9</span> Severe
+                        &nbsp;•&nbsp;
+
+                        <span>10</span> Worst
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- STIFFNESS -->
+
+                <div class="input-group">
+
+                    <label for="stiffness">
+
+                        Stiffness Score (0–10)
+
+                    </label>
+
+
+                    <input
+                        id="stiffness"
+                        type="number"
+                        name="stiffness"
+                        min="0"
+                        max="10"
+                        step="1"
+                        placeholder="Enter stiffness score"
+                        required
+                    >
+
+
+                    <div class="scale">
+
+                        <span>0</span> None
+                        &nbsp;•&nbsp;
+
+                        <span>1–3</span> Mild
+                        &nbsp;•&nbsp;
+
+                        <span>4–6</span> Moderate
+                        &nbsp;•&nbsp;
+
+                        <span>7–9</span> Severe
+                        &nbsp;•&nbsp;
+
+                        <span>10</span> Extreme
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ANALYZE -->
+
+                <button
+                    id="analyzeButton"
+                    type="submit"
+                    class="analyze-button">
+
+                    ANALYZE SCREENING
+
+                </button>
+
+
+            </form>
+
+
+            <div
+                id="message"
+                class="message">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RESULT CARD
+    ====================================================== -->
+
+    <div
+        id="resultCard"
+        class="card result"
+        style="display:none;">
+
+
+        <div class="result-title">
+
+            PRELIMINARY SCREENING RESULT
+
+        </div>
+
+
+        <div
+            id="risk"
+            class="risk">
+
+        </div>
+
+
+        <div
+            id="resultDetails"
+            class="result-details">
+
+        </div>
+
+
+        <div class="note">
+
+            Movement and symptom data were analyzed
+            using the OrthoScan prototype AI model.
+
+            <br><br>
+
+            This is a prototype screening result,
+            not a medical diagnosis.
+            Clinical validation is required.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<div class="footer">
+
+    ORTHOSCAN • AI-assisted movement screening prototype
+
+</div>
+
+
+
+<script>
+
+
+/* ============================================================
+   VARIABLES
+============================================================ */
+
+let statusTimer = null;
+
+
+/* ============================================================
+   START RECORDING
+============================================================ */
+
+function startRecording() {
+
+
+    const button =
+        document.getElementById(
+            "recordButton"
+        );
+
+
+    const status =
+        document.getElementById(
+            "recordingStatus"
+        );
+
+
+    const resultCard =
+        document.getElementById(
+            "resultCard"
+        );
+
+
+    /* --------------------------------------------------------
+       Hide previous result
+    -------------------------------------------------------- */
+
+    resultCard.style.display =
+        "none";
+
+
+    /* --------------------------------------------------------
+       Clear previous recorded values
+    -------------------------------------------------------- */
+
+    document.getElementById(
+        "meanAngle"
+    ).innerHTML =
+        '<span class="waiting">Recording...</span>';
+
+
+    document.getElementById(
+        "kneeRange"
+    ).innerHTML =
+        '<span class="waiting">Recording...</span>';
+
+
+    document.getElementById(
+        "variation"
+    ).innerHTML =
+        '<span class="waiting">Recording...</span>';
+
+
+    /* --------------------------------------------------------
+       Disable button
+    -------------------------------------------------------- */
+
+    button.disabled =
+        true;
+
+
+    button.innerText =
+        "RECORDING...";
+
+
+    status.classList.add(
+        "active"
+    );
+
+
+    status.innerText =
+        "● Starting 10-second recording...";
+
+
+    /* --------------------------------------------------------
+       Send request
+    -------------------------------------------------------- */
+
+    fetch(
+        "/start-recording",
+        {
+            method: "POST"
+        }
+    )
+
+    .then(
+        response =>
+            response.json()
+    )
+
+    .then(
+        data => {
+
+
+            if (!data.success) {
+
+
+                status.innerText =
+                    data.message;
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerText =
+                    "START 10-SECOND RECORDING";
+
+
+                return;
+            }
+
+
+            status.innerText =
+                "● Recording... 10 seconds";
+
+
+            clearInterval(
+                statusTimer
+            );
+
+
+            statusTimer =
+                setInterval(
+                    updateRecordingStatus,
+                    300
+                );
+
+        }
+    )
+
+
+    .catch(
+        error => {
+
+
+            console.error(
+                error
+            );
+
+
+            status.innerText =
+                "Could not start recording.";
+
+
+            button.disabled =
+                false;
+
+
+            button.innerText =
+                "START 10-SECOND RECORDING";
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   CHECK RECORDING STATUS
+============================================================ */
+
+function updateRecordingStatus() {
+
+
+    fetch(
+        "/recording-status"
+    )
+
+    .then(
+        response =>
+            response.json()
+    )
+
+    .then(
+        data => {
+
+
+            const status =
+                document.getElementById(
+                    "recordingStatus"
+                );
+
+
+            const button =
+                document.getElementById(
+                    "recordButton"
+                );
+
+
+            /* -----------------------------------------------
+               STILL RECORDING
+            ------------------------------------------------ */
+
+            if (data.recording) {
+
+
+                status.innerText =
+
+                    "● Recording... "
+                    +
+                    data.remaining
+                    +
+                    " seconds remaining";
+
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------
+               PROCESSING
+            ------------------------------------------------ */
+
+            if (
+                data.status ===
+                "Processing recorded movement..."
+            ) {
+
+
+                status.innerText =
+                    "● Processing recorded movement...";
+
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------
+               COMPLETED
+            ------------------------------------------------ */
+
+            if (
+                data.status ===
+                "Assessment completed"
+            ) {
+
+
+                clearInterval(
+                    statusTimer
+                );
+
+
+                status.innerText =
+                    "✓ New 10-second assessment ready";
+
+
+                status.classList.remove(
+                    "active"
+                );
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerText =
+                    "START NEW RECORDING";
+
+
+                loadFeatures();
+
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------
+               NOT ENOUGH DATA
+            ------------------------------------------------ */
+
+            if (
+                data.status ===
+                "Not enough movement data"
+            ) {
+
+
+                clearInterval(
+                    statusTimer
+                );
+
+
+                status.innerText =
+                    "● Not enough valid movement data";
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerText =
+                    "TRY AGAIN";
+
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------
+               EXTRACTION ERROR
+            ------------------------------------------------ */
+
+            if (
+                data.status ===
+                "Feature extraction failed"
+            ) {
+
+
+                clearInterval(
+                    statusTimer
+                );
+
+
+                status.innerText =
+                    "● Feature extraction failed";
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerText =
+                    "TRY AGAIN";
+
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------
+               GENERAL ERROR
+            ------------------------------------------------ */
+
+            if (
+                data.status ===
+                "Recording error"
+            ) {
+
+
+                clearInterval(
+                    statusTimer
+                );
+
+
+                status.innerText =
+                    "● Recording error";
+
+
+                button.disabled =
+                    false;
+
+
+                button.innerText =
+                    "TRY AGAIN";
+
+            }
+
+        }
+    )
+
+    .catch(
+        error => {
+
+            console.error(
+                error
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   LOAD NEW FEATURES
+============================================================ */
+
+function loadFeatures() {
+
+
+    fetch(
+        "/features"
+    )
+
+    .then(
+        response =>
+            response.json()
+    )
+
+    .then(
+        data => {
+
+
+            if (!data.available) {
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------------
+               Mean Knee Angle
+            ------------------------------------------------ */
+
+            document.getElementById(
+                "meanAngle"
+            ).innerText =
+
+                data.mean_angle.toFixed(2)
+                +
+                "°";
+
+
+            /* -----------------------------------------------
+               Knee Range
+            ------------------------------------------------ */
+
+            document.getElementById(
+                "kneeRange"
+            ).innerText =
+
+                data.knee_range.toFixed(2)
+                +
+                "°";
+
+
+            /* -----------------------------------------------
+               Angle Variation
+            ------------------------------------------------ */
+
+            document.getElementById(
+                "variation"
+            ).innerText =
+
+                data.variation.toFixed(2);
+
+
+            showMessage(
+                "New recorded movement data loaded."
+            );
+
+        }
+    )
+
+    .catch(
+        error => {
+
+            console.error(
+                error
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ANALYZE SCREENING
+============================================================ */
+
+document
+    .getElementById(
+        "analysisForm"
+    )
+    .addEventListener(
+
+        "submit",
+
+        function(event) {
+
+
+            event.preventDefault();
+
+
+            const button =
+                document.getElementById(
+                    "analyzeButton"
+                );
+
+
+            const formData =
+                new FormData(
+                    this
+                );
+
+
+            /* -----------------------------------------------
+               Disable button
+            ------------------------------------------------ */
+
+            button.disabled =
+                true;
+
+
+            button.innerText =
+                "ANALYZING...";
+
+
+            /* -----------------------------------------------
+               Send data
+            ------------------------------------------------ */
+
+            fetch(
+
+                "/analyze",
+
+                {
+
+                    method:
+                        "POST",
+
+                    body:
+                        formData
+
+                }
+
+            )
+
+            .then(
+
+                response =>
+
+                    response.json()
+
+                    .then(
+                        data => ({
+
+                            ok:
+                                response.ok,
+
+                            data:
+                                data
+
+                        })
+                    )
+
+            )
+
+            .then(
+
+                result => {
+
+
+                    button.disabled =
+                        false;
+
+
+                    button.innerText =
+                        "ANALYZE SCREENING";
+
+
+                    if (
+                        !result.data.success
+                    ) {
+
+
+                        showMessage(
+                            result.data.message
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    showRiskResult(
+                        result.data
+                    );
+
+                }
+
+            )
+
+            .catch(
+
+                error => {
+
+
+                    console.error(
+                        error
+                    );
+
+
+                    button.disabled =
+                        false;
+
+
+                    button.innerText =
+                        "ANALYZE SCREENING";
+
+
+                    showMessage(
+                        "Analysis failed. Check terminal."
+                    );
+
+                }
+
+            );
+
+        }
+
+    );
+
+
+/* ============================================================
+   SHOW RISK RESULT
+============================================================ */
+
+function showRiskResult(
+    data
+) {
+
+
+    const card =
+        document.getElementById(
+            "resultCard"
+        );
+
+
+    const risk =
+        document.getElementById(
+            "risk"
+        );
+
+
+    const details =
+        document.getElementById(
+            "resultDetails"
+        );
+
+
+    /* --------------------------------------------------------
+       Reset classes
+    -------------------------------------------------------- */
+
+    risk.className =
+        "risk";
+
+
+    /* --------------------------------------------------------
+       Risk colour
+    -------------------------------------------------------- */
+
+    if (
+        data.risk ===
+        "LOW"
+    ) {
+
+        risk.classList.add(
+            "low"
+        );
+
+    }
+
+    else if (
+        data.risk ===
+        "MODERATE"
+    ) {
+
+        risk.classList.add(
+            "moderate"
+        );
+
+    }
+
+    else if (
+        data.risk ===
+        "HIGH"
+    ) {
+
+        risk.classList.add(
+            "high"
+        );
+
+    }
+
+
+    /* --------------------------------------------------------
+       Risk text
+    -------------------------------------------------------- */
+
+    risk.innerText =
+        data.risk;
+
+
+    /* --------------------------------------------------------
+       Result details
+    -------------------------------------------------------- */
+
+    details.innerHTML =
+
+        "<span>"
+        +
+        "Mean Angle: "
+        +
+        "<strong>"
+        +
+        data.features.mean_angle.toFixed(2)
+        +
+        "°"
+        +
+        "</strong>"
+        +
+        "</span>"
+
+
+        +
+
+
+        "<span>"
+        +
+        "Knee Range: "
+        +
+        "<strong>"
+        +
+        data.features.knee_range.toFixed(2)
+        +
+        "°"
+        +
+        "</strong>"
+        +
+        "</span>"
+
+
+        +
+
+
+        "<span>"
+        +
+        "Pain: "
+        +
+        "<strong>"
+        +
+        data.pain
+        +
+        "/10"
+        +
+        "</strong>"
+        +
+        "</span>"
+
+
+        +
+
+
+        "<span>"
+        +
+        "Stiffness: "
+        +
+        "<strong>"
+        +
+        data.stiffness
+        +
+        "/10"
+        +
+        "</strong>"
+        +
+        "</span>";
+
+
+    /* --------------------------------------------------------
+       Show result
+    -------------------------------------------------------- */
+
+    card.style.display =
+        "block";
+
+
+    card.scrollIntoView({
+
+        behavior:
+            "smooth",
+
+        block:
+            "nearest"
+
+    });
+
+}
+
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(
+    text
+) {
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.innerText =
+        text;
+
+
+    message.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+
+        () => {
+
+            message.classList.remove(
+                "show"
+            );
+
+        },
+
+        3000
+
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
